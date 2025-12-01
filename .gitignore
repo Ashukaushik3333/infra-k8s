@@ -1,0 +1,14 @@
+# GitHub Actions Runner (must NEVER be committed)
+actions-runner/
+helm/actions-runner/
+
+# OS files
+.DS_Store
+
+# Terraform
+.terraform/
+*.tfstate
+*.tfstate.backup
+
+# Logs
+*.log

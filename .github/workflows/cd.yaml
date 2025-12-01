@@ -1,0 +1,32 @@
+name: CD - Deploy to Minikube using Helm
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: self-hosted
+
+    steps:
+      - name: Checkout Infra Repo
+        uses: actions/checkout@v4
+
+      - name: Verify kubectl
+        run: kubectl version --client
+
+      - name: Verify Helm
+        run: helm version
+
+      - name: Set Kubernetes Context to Minikube
+        run: kubectl config use-context minikube
+
+      - name: Create Namespace if Not Exists
+        run: |
+          kubectl get ns flask-app || kubectl create ns flask-app
+
+      - name: Deploy / Upgrade App using Helm
+        run: |
+          helm upgrade --install flask-app ./helm/flask-app \
+            -n flask-app
